@@ -5,8 +5,12 @@ const router = express.Router();
 
 // *********  Routes API'S  ********** //
 var user = require("../controllers/user");
+
+// -- Sample Object Insert -- //
+router.post("/user/postSampleObject", user.postSampleObj);
+// -- Sample Object Insert -- //
+
 //---GET---//
-router.get("/user/profile", user.getUserProfile);
 //---GET---//
 
 //---POST---//

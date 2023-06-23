@@ -1,0 +1,19 @@
+ 
+  {
+    "title": "Mr",
+    "firstName": "Arshad",
+    "lastName": "Shaik",
+    "fullName":"Arshad Shaik",
+    "image": "",
+    "phone": "9010923116",
+    "email": "arshadshaik246@gmail.com",
+    "password": "As@9010923116",
+    "gender": "Male",
+    "token": "",
+    "address": "H.no: 4-72-2, Old post office street, Pamur(M), Prakasam(dt),PN:523108",
+    "city": "Pamur",
+    "state": "Andhra Pradesh",
+    "country": "India",
+    "status": "active",
+    "isDeleted": false
+  }
