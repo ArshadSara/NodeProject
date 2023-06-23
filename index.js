@@ -49,10 +49,10 @@ app.use("/public", express.static("public"));
 // -- Access-Public-//
 
 //--Mongos Connection--//
-var dbConfig = "./config/dbconnection.js";
+var dbConfig = require("./config/dbconnection.js");
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig, {
+mongoose.connect(dbConfig.url, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
