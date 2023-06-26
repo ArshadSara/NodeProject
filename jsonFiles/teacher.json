@@ -1,0 +1,21 @@
+ 
+  {
+    "title": "Mr",
+    "firstName": "Arshad",
+    "lastName": "Shaik",
+    "fullName":"Arshad Shaik",
+    "image": "",
+    "dob": "",
+    "phone": "9010923116",
+    "altPhone":"",
+    "email": "arshadshaik246@gmail.com",
+    "altEmail":"",
+    "password": "As@9010923116",
+    "gender": "Male",
+    "teacherRole": "Principle",
+    "address": "H.no: 4-72-2, Old post office street, Pamur(M), Prakasam(dt),PN:523108",
+    "city": "Pamur",
+    "zipcode": "523108",
+    "state": "Andhra Pradesh",
+    "isDeleted": false
+  }

@@ -1,6 +1,7 @@
 
 var fs = require("fs");
 var User = require("../models/user");
+var Teacher = require("../models/teacher");
 const path = require("path")
 
 /**
@@ -10,9 +11,10 @@ const path = require("path")
  *
  */
 exports.postSampleObj = async function (req, res) {
-  const filePath = path.join("__dirname", "../jsonFiles/user.json");
+  console.log("1")
+  const filePath = path.join("__dirname", "../jsonFiles/teacher.json");
   const data = fs.readFileSync(filePath,'utf-8');
-  const result = new User(JSON.parse(data))
-  await User.create(result);
+  const result = new Teacher(JSON.parse(data))
+  await Teacher.create(result);
   return res.send({"status":"success"})
  };
