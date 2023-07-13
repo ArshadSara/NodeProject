@@ -8,7 +8,6 @@ var user = require("../controllers/user");
 var teacher = require("../controllers/teacher");
 var principal = require("../controllers/principal");
 var user = require("../controllers/user");
-const principal = require("../models/principal");
 
 // -- Sample Object Insert -- //
 router.post("/user/postSampleObject", user.postSampleObj);
