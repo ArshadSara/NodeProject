@@ -25,6 +25,8 @@ var studentSchema = new Schema({
     "totalPayment":String,
     "pendingPayment":String,
     "schoolId": { type: Schema.Types.ObjectId, ref: "school" },
+    "principalId":{ type: Schema.Types.ObjectId, ref: "principal" },
+    "teacherId":{ type: Schema.Types.ObjectId, ref: "teacher" },
     "address": String,
     "city": String,
     "zipcode": String,
@@ -34,6 +36,6 @@ var studentSchema = new Schema({
     "status":  {type: String, default: "Active" },
     "isDeleted": {type: Boolean, default: false },
     "createdDate": { type: Date, default: Date.now },
-    "updatedDate": { type: Date },
+    "updatedDate": { type: Date, default: Date.now },
 });
 module.exports = mongoose.model('student', studentSchema);

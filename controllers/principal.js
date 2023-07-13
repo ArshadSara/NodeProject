@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 var nodemailer = require("nodemailer")
-var TeacherModel = require("../models/teacher");
+var PrincipalModel = require("../models/principal");
 
 /**
- * Teacher Login
+ * Principal Login
  *
  * @type POST
  *
@@ -11,7 +11,7 @@ var TeacherModel = require("../models/teacher");
  * @param {password} req - String
  *
  */
-exports.teacherLogin = function (req, res) {
+exports.principalLogin = function (req, res) {
   if (
     req.body.email &&
     req.body.email != "" &&
@@ -19,10 +19,9 @@ exports.teacherLogin = function (req, res) {
     req.body.password != ""
   ) {
     const email = req.body.email.trim();
-    TeacherModel.findOne({
+    PrincipalModel.findOne({
       email:email,
       isDeleted: false,
-      role: "Teacher",
       status: "Active",
     }).then((user) => {
       if (!user) {
@@ -31,7 +30,6 @@ exports.teacherLogin = function (req, res) {
           msg: "The email address or password you entered is not valid, Please try again.",
         });
       } else if (req.body.password != user.password) {
-        console.log(req.body.password, user.password)
         res.send({
           Status: "Failed",
           msg: "The email address or password you entered is not valid, Please try again.",
@@ -59,6 +57,7 @@ exports.teacherLogin = function (req, res) {
                   token: `Bearer ${token}`,
                   msg: "login success",
                   id: user._id,
+                  role:user.role,
                   fullName: user.fullName,
                   phone: user.phone,
                   email: user.email
@@ -77,14 +76,14 @@ exports.teacherLogin = function (req, res) {
 };
 
 /**
- * Teacher Forgot Password
+ * Principal Forgot Password
  *
  * @type POST
  *
  * @param {email} req - String
  *
  */
-exports.teacherForgotPassword = async function (req, res) {
+exports.principalForgotPassword = async function (req, res) {
   if (req.body.email && req.body.email != "") {
     const email = req.body.email.trim();
     var quary = {
@@ -92,14 +91,14 @@ exports.teacherForgotPassword = async function (req, res) {
       isDeleted: false,
       status: "Active",
     };
-    await TeacherModel.findOne(quary).then(async(user) => {
+    await PrincipalModel.findOne(quary).then(async(user) => {
       if (user == null) {
         res.send({ Status: "Failed", msg: "Invalid User" });
       } else {
         var setpassword = {
           password: user.phone,
         };
-        await TeacherModel.findOneAndUpdate(
+        await PrincipalModel.findOneAndUpdate(
           quary,
           { $set: setpassword },
           { new: true }
@@ -120,9 +119,7 @@ exports.teacherForgotPassword = async function (req, res) {
 };
 
 async function sendEmail(password, email){
-  console.log(password, email)
   try{
-    console.log("!")
     const transport = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -138,7 +135,6 @@ async function sendEmail(password, email){
       text: `Please use this Password for login${password}`,
     };
     await transport.sendMail(mailOptions, function(error, info){
-      console.log("111111111111111")
       if(error){
          console.log(error);
       }else{
@@ -152,12 +148,12 @@ async function sendEmail(password, email){
 }
 
 /**
- * Teacher Change Password
+ * Principal Change Password
  *
  * @type POST
  *
  */
-exports.teacherChangePassword = function (req, res) {
+exports.principalChangePassword = function (req, res) {
     var quary = {
       _id: req.body.userId,
       isDeleted: false,
@@ -166,7 +162,7 @@ exports.teacherChangePassword = function (req, res) {
     var setUpdate = {
       password: req.body.newPassword,
     };
-    TeacherModel.findOneAndUpdate(
+    PrincipalModel.findOneAndUpdate(
       quary,
       { $set: setUpdate },
       { new: true }
@@ -182,18 +178,18 @@ exports.teacherChangePassword = function (req, res) {
 
 
 /**
- * Teacher Information
+ * Principal Information
  *
  * @type GET
  *
  */
-exports.teacherGetDetails = function (req, res) {
+exports.principalGetDetails = function (req, res) {
   var quary = {
     _id: req.params._id,
     isDeleted: false,
     status: "Active",
   };
-  TeacherModel.findOne(
+  PrincipalModel.findOne(
     quary
   ).then((responce) => {
     if (responce) {
@@ -212,14 +208,13 @@ exports.teacherGetDetails = function (req, res) {
  * @type POST
  *
  */
-exports.teacherCreate = function (req, res) {
+exports.principalCreate = function (req, res) {
   var quary ={
     $or:[{email:req.body.email},{phone:req.body.phone}],
     isDeleted: false,
-    role: "Teacher",
     status: "Active",
   }
- TeacherModel.findOne(quary).then(async(user) => {
+  PrincipalModel.findOne(quary).then(async(user) => {
       if (user) {
         if(req.body.email == user.email){
           res.send({
@@ -246,15 +241,14 @@ exports.teacherCreate = function (req, res) {
           altEmail:"",
           password: req.body && req.body.password,
           gender: "",
-          teacherRole: "",
           address: "",
           city: "",
           zipcode: "",
           state: "",
           isDeleted: false
         }
-        const result = new TeacherModel(newObj)
-        await TeacherModel.create(result);
+        const result = new PrincipalModel(newObj)
+        await PrincipalModel.create(result);
         return res.send({"status":"200", "message": "Teacher create successfully"})
       }
     });
@@ -266,12 +260,10 @@ exports.teacherCreate = function (req, res) {
  * @type POST
  *
  */
-exports.teacherUpdate = function (req, res) {
+exports.principalUpdate = function (req, res) {
   var quary ={
     _id: req.body._id,
     isDeleted: false,
-    role: "Teacher",
-    status: "Active",
   }
   var newObj ={
     title: req.body && req.body.firstName ? req.body.title: "",
@@ -292,9 +284,8 @@ exports.teacherUpdate = function (req, res) {
     state: req.body && req.body.state ? req.body.state : "",
     isDeleted: false
   }
- TeacherModel.findOneAndUpdate(quary, { $set: newObj },
+  PrincipalModel.findOneAndUpdate(quary, { $set: newObj },
   { new: true }).then(async(user) => {
-    console.log(user)
       if (user) {
         await res.send({"status":"200", "message": "Teacher Update successfully"})
       }
