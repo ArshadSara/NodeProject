@@ -9,9 +9,10 @@ var schoolSchema = new Schema({
     "schoolRelatedYears": [{
         "years": { type: String, trim: true},
     }],
+    
     "image": String,
     "principalId":{ type: Schema.Types.ObjectId, ref: "principal" },
-    "schoolId":{ type: Schema.Types.ObjectId, ref: "school" },
+    // "schoolId":{ type: Schema.Types.ObjectId, ref: "school" },
     "address": String,
     "city": String,
     "zipcode": String,

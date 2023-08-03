@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //-- headers --//
 app.use(function (req, res, next) {
+  console.log(req)
   //allow cross origin requests
   res.setHeader(
     "Access-Control-Allow-Methods",
